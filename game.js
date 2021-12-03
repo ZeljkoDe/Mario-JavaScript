@@ -25,19 +25,38 @@ loadSprite('surprise', 'gesQ1KP.png');
 loadSprite('unboxed', 'bdrLpi6.png');
 loadSprite('pipe', 'rl3cTER.png');
 
+loadSprite('blue-block', 'fVscIbn.png');
+loadSprite('blue-brick', '3e5YRQd.png');
+loadSprite('blue-steel', 'gqVoI2b.png');
+loadSprite('blue-evil-shroom', 'SvV4ueD.png');
+loadSprite('blue-surprise', 'RMqCc1G.png');
+
 scene('game', ({ level, score }) => {
 	layers(['bg', 'obj', 'ui'], 'obj');
 
-	const map = [
-		'                             ',
-		'                             ',
-		'                             ',
-		'                             ',
-		'       *   =%=  $$    $      ',
-		'                             ',
-		'                          -  ',
-		'                ^ ^          ',
-		'=====================   =====',
+	const maps = [
+		[
+			'                             ',
+			'                             ',
+			'                             ',
+			'                             ',
+			'       *   =%=  $$    $      ',
+			'                             ',
+			'                          -  ',
+			'                ^ ^          ',
+			'=====================   =====',
+		],
+		[
+			'2                             2',
+			'2                             2',
+			'2                             2',
+			'2                             2',
+			'2       4  44444              2',
+			'2                  5          2',
+			'2                 55       -  2',
+			'2              33555          2',
+			'11111111111111111111     111111',
+		],
 	];
 
 	const levelCfg = {
@@ -50,11 +69,15 @@ scene('game', ({ level, score }) => {
 		'^': [sprite('evil-shroom'), 'dangerous', body()],
 		'}': [sprite('unboxed'), solid()],
 		'-': [sprite('pipe'), solid(), 'pipe'],
-		'#': [sprite('mushroom'), solid(), 'mushroom', body()]
-
+		'#': [sprite('mushroom'), solid(), 'mushroom', body()],
+		'1': [sprite('blue-block'), solid(), scale(0.5)],
+		'2': [sprite('blue-brick'), solid(), scale(0.5)],
+		'3': [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous', body()],
+		'4': [sprite('blue-surprise'), solid(), scale(0.5), 'coin-surprise'],
+		'5': [sprite('blue-steel'), solid(), scale(0.5)],
 	};
 
-	const gameLevel = addLevel(map, levelCfg);
+	const gameLevel = addLevel(maps[level], levelCfg);
 
 	const scoreLabel = add([
 		text(score),
@@ -76,7 +99,7 @@ scene('game', ({ level, score }) => {
 				if (isBig) {
 					timer -= dt();
 					if (timer <= 0) {
-						this.smalify();
+						this.smallify();
 					}
 				}
 			},
